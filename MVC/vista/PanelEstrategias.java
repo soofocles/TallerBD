@@ -18,7 +18,6 @@ public class PanelEstrategias extends JPanel {
     private ArticuloControlador articuloControlador;
     private JTable tablaEstrategias;
     private DefaultTableModel modeloTabla;
-    private JButton btnCrear, btnEditar, btnEliminar, btnVer;
     
     // Constructor: prepara controladores, componentes y carga las estrategias
     public PanelEstrategias() {
@@ -66,42 +65,65 @@ public class PanelEstrategias extends JPanel {
         scrollTabla.setBorder(BorderFactory.createTitledBorder("Estrategias Registradas"));
         add(scrollTabla, BorderLayout.CENTER);
 
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
-        panelBotones.setBackground(new Color(236, 240, 241));
-        
-        btnCrear = crearBoton("CREAR", new Color(46, 204, 113));
-        btnVer = crearBoton("VER", new Color(52, 152, 219));
-        btnEditar = crearBoton("EDITAR", new Color(243, 156, 18));
-        btnEliminar = crearBoton("ELIMINAR", new Color(231, 76, 60));
-        
-        btnCrear.addActionListener(e -> mostrarDialogoCrear());
-        btnVer.addActionListener(e -> verDetallesEstrategia());
-        btnEditar.addActionListener(e -> mostrarDialogoEditar());
-        btnEliminar.addActionListener(e -> eliminarEstrategia());
-        
-        panelBotones.add(btnCrear);
-        panelBotones.add(btnVer);
-        panelBotones.add(btnEditar);
-        panelBotones.add(btnEliminar);
-        
-        JButton btnRefrescar = crearBoton("Refrescar", new Color(149, 165, 166));
-        btnRefrescar.addActionListener(e -> cargarEstrategias());
-        panelBotones.add(btnRefrescar);
-        
+        // En el constructor o método inicializador
+        JPanel panelBotones = crearPanelBotones();
         add(panelBotones, BorderLayout.SOUTH);
+              
+
     }
     
-    // Crea un botón con estilo uniforme para este panel (color, tamaño, fuente)
-    private JButton crearBoton(String texto, Color color) {
-        JButton boton = new JButton(texto);
-        boton.setFont(new Font("Arial", Font.BOLD, 12));
-        boton.setBackground(color);
-        boton.setForeground(Color.WHITE);
-        boton.setFocusPainted(false);
-        boton.setBorderPainted(false);
-        boton.setPreferredSize(new Dimension(140, 35));
-        return boton;
-    }
+// Método para crear botones con colores, hover y pressed
+private JButton crearBoton(String texto, Color color) {
+    JButton boton = new JButton(texto) {
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (getModel().isPressed()) {
+                g.setColor(color.darker());
+            } else if (getModel().isRollover()) {
+                g.setColor(color.brighter());
+            } else {
+                g.setColor(color);
+            }
+            g.fillRect(0, 0, getWidth(), getHeight());
+            super.paintComponent(g);
+        }
+    };
+    boton.setFont(new Font("Arial", Font.BOLD, 12));
+    boton.setForeground(Color.WHITE);
+    boton.setFocusPainted(false);
+    boton.setBorderPainted(false);
+    boton.setContentAreaFilled(false);
+    boton.setOpaque(false);
+    return boton;
+}
+
+// Panel de botones con los 5 botones pintados
+private JPanel crearPanelBotones() {
+    JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+    panelBotones.setBackground(new Color(236, 240, 241));
+
+    JButton btnCrear = crearBoton("CREAR", new Color(46, 204, 113));
+    JButton btnVer = crearBoton("VER", new Color(52, 152, 219));
+    JButton btnEditar = crearBoton("EDITAR", new Color(243, 156, 18));
+    JButton btnEliminar = crearBoton("ELIMINAR", new Color(231, 76, 60));
+    JButton btnRefrescar = crearBoton("REFRESCAR", new Color(149, 165, 166));
+
+    // Acciones de ejemplo
+    btnCrear.addActionListener(e -> mostrarDialogoCrear());
+    btnVer.addActionListener(e -> verDetallesEstrategia());
+    btnEditar.addActionListener(e -> mostrarDialogoEditar());
+    btnEliminar.addActionListener(e -> eliminarEstrategia());
+    btnRefrescar.addActionListener(e -> cargarEstrategias());
+
+    panelBotones.add(btnCrear);
+    panelBotones.add(btnVer);
+    panelBotones.add(btnEditar);
+    panelBotones.add(btnEliminar);
+    panelBotones.add(btnRefrescar);
+
+    return panelBotones;
+}
+
     
     // Solicita al controlador la lista de estrategias y la muestra en la tabla
     private void cargarEstrategias() {
@@ -397,6 +419,7 @@ public class PanelEstrategias extends JPanel {
     
     // Lee los valores del formulario, valida y devuelve un objeto EstrategiaInversion
     // Retorna null si hay errores de validación (por ejemplo, campos vacíos o número inválido)
+    @SuppressWarnings("unchecked")
     private EstrategiaInversion obtenerDatosFormulario(JPanel panel) {
         try {
             JTextField txtNombre = (JTextField) panel.getClientProperty("txtNombre");
