@@ -122,6 +122,7 @@ public class PanelBusquedas extends JPanel {
             stats[0], stats[1]
         ));
     }
+
     
     // Cuando el usuario selecciona una fila, muestra la información completa
     // de la búsqueda seleccionada en el área de detalles
@@ -151,4 +152,6 @@ public class PanelBusquedas extends JPanel {
                 txtDetalles.setCaretPosition(0);
             }
         }
+    }
+}
    

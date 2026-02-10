@@ -38,6 +38,7 @@ public List<Busqueda> obtenerTodasLasBusquedas(){
             e.printStackTrace();
         }
     return busquedas;
+}
 
         // Método para obtener una búsqueda específica por su ID
     public Busqueda obtenerBusquedaPorId(int id) {
