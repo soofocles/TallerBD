@@ -25,6 +25,7 @@ public class ArticuloControlador {
             }
             
         } catch (SQLException e) {
+        } catch (SQLException e) { // Manejo de errores en caso de problemas con la base de datos
             System.err.println("Error al obtener artículos: " + e.getMessage());
             e.printStackTrace();
         }
@@ -46,11 +47,13 @@ public class ArticuloControlador {
             ResultSet rs = pstmt.executeQuery();
             
             // Si existe el artículo, lo mapeamos
+            // Si existe el artículo, lo convertimos en un objeto Articulo y lo devolvemos
             if (rs.next()) {
                 articulo = mapearArticulo(rs);
             }
             
         } catch (SQLException e) {
+        } catch (SQLException e) { // Manejo de errores en caso de problemas con la base de datos
             System.err.println("Error al obtener artículo: " + e.getMessage());
         }
         
@@ -73,6 +76,7 @@ public class ArticuloControlador {
             }
             
         } catch (SQLException e) {
+        } catch (SQLException e) { // Manejo de errores en caso de problemas con la base de datos
             System.err.println("Error al obtener artículos por búsqueda: " + e.getMessage());
         }
         
@@ -92,6 +96,7 @@ public class ArticuloControlador {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             // Agregamos % para buscar coincidencias parciales (cualquier parte de la palabra)
+            // Agregamos % para buscar coincidencias parciales en el título, autores y palabras clave
             String patron = "%" + palabraClave + "%";
             pstmt.setString(1, patron);
             pstmt.setString(2, patron);
@@ -104,6 +109,7 @@ public class ArticuloControlador {
             }
             
         } catch (SQLException e) {
+        } catch (SQLException e) { // Manejo de errores en caso de problemas con la base de datos
             System.err.println("Error al buscar artículos: " + e.getMessage());
         }
         
@@ -124,6 +130,10 @@ public class ArticuloControlador {
             }
             
         } catch (SQLException e) {
+                total = rs.getInt("total"); 
+            }
+            
+        } catch (SQLException e) { // Manejo de errores en caso de problemas con la base de datos
             System.err.println("Error al contar artículos: " + e.getMessage());
         }
         

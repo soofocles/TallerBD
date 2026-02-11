@@ -8,6 +8,7 @@ import java.sql.SQLException;
 // Usa el patrón Singleton para asegurar que solo existe una conexión activa
 public class ConexionDB {
     // Constantes de configuración para conectarse a la base de datos
+    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  // Driver de MySQL
     private static final String URL = "jdbc:mysql://localhost:3306/articulos_fintech?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";  // Dirección y nombre de la BD
     private static final String USUARIO = "root";  // Usuario de MySQL
     private static final String PASSWORD = "";  // Contraseña de MySQL
